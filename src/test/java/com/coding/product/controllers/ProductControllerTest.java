@@ -26,7 +26,6 @@ class ProductControllerTest {
   @MockBean OrderService orderService;
   @MockBean ProductRepository productRepository;
   @Autowired ProductService productService;
-  //private MockMvc mockMvc;
 
   @Test
   @DisplayName("Test create new product Successfully")
@@ -53,16 +52,4 @@ class ProductControllerTest {
     productService.createProduct(null);
     verify(productRepository, times(0)).saveAndFlush(product);
   }
-  //
-  //  @Test
-  //  @DisplayName("Test delete product by Id Successfully")
-  //  void validateDeleteProduct() {
-  //    String title = new Date().toString();
-  //    String resultTitle = UUID.nameUUIDFromBytes(title.getBytes()).toString();
-  //    Product product = new Product(resultTitle, BigDecimal.valueOf(100.90), 3, 0);
-  //    productService.createProduct(product);
-  //    Product product1 = productRepository.findProductByTitle(resultTitle);
-  //    productService.deleteProduct(product1.getId());
-  //    Assertions.assertThat(productRepository.findById(product.getId())).isEmpty();
-  //  }
 }
