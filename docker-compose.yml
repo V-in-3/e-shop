@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  e-shop:
+    build: .
+    network_mode: shop
+    container_name: e-shop-mysql
+    expose:
+      - 8088
+    ports:
+      - 8088:8080
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3305/products?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+  db:
+    image: mysql:8.0.25
+    network_mode: shop
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=products
+    ports:
+      - '3305:3306'
+    expose:
+      - '3305'

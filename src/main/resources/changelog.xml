@@ -1,0 +1,78 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="CREATE_DB_PRODUCTS" author="v.vorotnikov">
+
+        <sql>
+            create
+            database IF NOT EXISTS products;
+        </sql>
+    </changeSet>
+
+    <changeSet id="CREATE_TABLE_USER" author="v.vorotnikov">
+        <sql>
+            create table user
+            (
+                id          bigint auto_increment
+                    primary key,
+                created_at datetime null,
+                email      varchar(255) null,
+                name       varchar(255) null,
+                password   varchar(255) null,
+                updated_at datetime null,
+                user_role  int null
+            ) engine = InnoDB;
+        </sql>
+    </changeSet>
+
+    <changeSet id="CREATE_TABLE_PRODUCT" author="v.vorotnikov">
+        <sql>
+            create table product
+            (
+                id         bigint auto_increment
+                    primary key,
+                created_at datetime       null,
+                created_by varchar(255)   null,
+                discount   int            null,
+                likes      int            not null,
+                price      decimal(19, 2) null,
+                title      varchar(255)   null,
+                updated_at datetime       null
+            )
+                engine = InnoDB;
+        </sql>
+    </changeSet>
+
+    <changeSet id="CREATE_TABLE_ORDERS" author="v.vorotnikov">
+        <sql>
+            create table orders
+            (
+                id             bigint auto_increment
+                    primary key,
+                created_at     datetime null,
+                updated_at     datetime null,
+                process_status int      null,
+                status         int      null,
+                product_id     bigint   null,
+                user_id        bigint   null,
+                constraint FK787ibr3guwp6xobrpbofnv7le
+                    foreign key (product_id) references product (id),
+                constraint FKel9kyl84ego2otj2accfd8mr7
+                    foreign key (user_id) references user (id)
+            )
+                engine = InnoDB;
+        </sql>
+    </changeSet>
+
+    <changeSet id="PREPARING-start" author="v.vorotnikov">
+        <loadData tableName="product" file="/populateDB/product.csv"/>
+        <!---->
+        <!--     <sql>-->
+        <!--            ALTER TABLE liked_products;-->
+        <!--            ADD COLUMN process_status VARCHAR(15) AFTER status;-->
+        <!--     </sql>-->
+    </changeSet>
+</databaseChangeLog>
